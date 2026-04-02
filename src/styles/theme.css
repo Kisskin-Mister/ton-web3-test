@@ -1,0 +1,133 @@
+:root {
+  --telegram-bg: #f4f5f7;
+  --telegram-secondary-bg: #ebeff3;
+  --telegram-section-bg: #ffffff;
+  --telegram-header-bg: rgba(255, 255, 255, 0.94);
+  --telegram-text: #0f1728;
+  --telegram-subtitle: #66778f;
+  --telegram-hint: #8d9aab;
+  --telegram-link: #2aabee;
+  --telegram-button: #2aabee;
+  --telegram-button-text: #ffffff;
+  --telegram-accent-text: #2aabee;
+  --telegram-destructive: #d9515d;
+  --telegram-section-header: #7c8da0;
+  --surface-1: var(--telegram-section-bg);
+  --surface-2: color-mix(in srgb, var(--telegram-secondary-bg) 56%, var(--telegram-section-bg));
+  --surface-3: color-mix(in srgb, var(--telegram-bg) 70%, var(--telegram-section-bg));
+  --surface-outline: color-mix(in srgb, var(--telegram-text) 10%, transparent);
+  --surface-outline-strong: color-mix(in srgb, var(--telegram-text) 16%, transparent);
+  --accent-soft: color-mix(in srgb, var(--telegram-button) 14%, var(--telegram-section-bg));
+  --accent-soft-strong: color-mix(in srgb, var(--telegram-button) 22%, var(--telegram-section-bg));
+  --success: #28b463;
+  --success-soft: rgba(40, 180, 99, 0.12);
+  --warning: #f1a338;
+  --warning-soft: rgba(241, 163, 56, 0.16);
+  --danger: #d9515d;
+  --danger-soft: rgba(217, 81, 93, 0.14);
+  --shadow-low: 0 1px 2px rgba(15, 23, 40, 0.05), 0 10px 28px rgba(15, 23, 40, 0.06);
+  --shadow-medium: 0 14px 34px rgba(15, 23, 40, 0.08);
+  --radius-xl: 28px;
+  --radius-lg: 22px;
+  --radius-md: 18px;
+  --radius-sm: 14px;
+  --app-max-width: 540px;
+  --font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+}
+
+html[data-color-scheme='dark'] {
+  color-scheme: dark;
+}
+
+:root[data-color-scheme='dark'] {
+  --telegram-bg: #18222d;
+  --telegram-secondary-bg: #202b36;
+  --telegram-section-bg: #212d3a;
+  --telegram-header-bg: rgba(24, 34, 45, 0.92);
+  --telegram-text: #f5f9ff;
+  --telegram-subtitle: #99a9bb;
+  --telegram-hint: #7c8a9b;
+  --telegram-link: #64c4f3;
+  --telegram-button: #2ea6de;
+  --telegram-button-text: #ffffff;
+  --telegram-accent-text: #7fd2f6;
+  --telegram-destructive: #ff8793;
+  --telegram-section-header: #92a6bb;
+  --surface-1: color-mix(in srgb, var(--telegram-section-bg) 94%, black);
+  --surface-2: color-mix(in srgb, var(--telegram-secondary-bg) 86%, var(--telegram-section-bg));
+  --surface-3: color-mix(in srgb, var(--telegram-bg) 84%, var(--telegram-secondary-bg));
+  --surface-outline: rgba(255, 255, 255, 0.08);
+  --surface-outline-strong: rgba(255, 255, 255, 0.14);
+  --accent-soft: color-mix(in srgb, var(--telegram-button) 18%, transparent);
+  --accent-soft-strong: color-mix(in srgb, var(--telegram-button) 28%, transparent);
+  --success: #7de3a7;
+  --success-soft: rgba(47, 194, 109, 0.18);
+  --warning: #ffc56f;
+  --warning-soft: rgba(255, 179, 69, 0.18);
+  --danger: #ff9da7;
+  --danger-soft: rgba(217, 81, 93, 0.22);
+  --shadow-low: 0 1px 2px rgba(0, 0, 0, 0.2), 0 14px 38px rgba(0, 0, 0, 0.22);
+  --shadow-medium: 0 18px 42px rgba(0, 0, 0, 0.26);
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+html {
+  background: var(--telegram-bg);
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--telegram-text);
+  background:
+    radial-gradient(circle at top center, color-mix(in srgb, var(--telegram-button) 8%, transparent), transparent 36%),
+    linear-gradient(180deg, color-mix(in srgb, var(--telegram-bg) 97%, white 3%), var(--telegram-bg));
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior-y: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+input,
+textarea {
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+svg {
+  display: block;
+}
+
+::selection {
+  background: var(--accent-soft-strong);
+}
