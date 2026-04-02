@@ -78,8 +78,8 @@ export function analyzeAddressRisk(input: AddressRiskInput) {
     risks.push({
       code: 'self-transfer',
       severity: 'danger',
-      title: 'Recipient is your own wallet',
-      description: 'This address matches the currently unlocked wallet. Double-check that the send target was intentional.',
+      title: 'Это ваш адрес',
+      description: 'Адрес совпадает с текущим кошельком.',
     })
   }
 
@@ -87,8 +87,8 @@ export function analyzeAddressRisk(input: AddressRiskInput) {
     risks.push({
       code: 'raw-address',
       severity: 'warning',
-      title: 'Raw TON address pasted',
-      description: 'Raw format is harder for humans to verify. Prefer the friendly testnet format when possible.',
+      title: 'Вставлен raw-адрес',
+      description: 'Такой формат сложнее проверить глазами.',
     })
   }
 
@@ -96,8 +96,8 @@ export function analyzeAddressRisk(input: AddressRiskInput) {
     risks.push({
       code: 'missing-testnet-flag',
       severity: 'warning',
-      title: 'Friendly address is missing the testnet marker',
-      description: 'The pasted address does not explicitly declare itself as testnet-safe. Verify the target before sending.',
+      title: 'Нет флага testnet',
+      description: 'Проверьте, что адрес точно относится к testnet.',
     })
   }
 
@@ -105,8 +105,8 @@ export function analyzeAddressRisk(input: AddressRiskInput) {
     risks.push({
       code: 'recipient-not-active',
       severity: 'warning',
-      title: 'Recipient wallet is not active yet',
-      description: 'The destination contract is not deployed. The transfer may initialize a fresh wallet or may be unexpected.',
+      title: 'Кошелек не активирован',
+      description: 'Контракт еще не развернут.',
     })
   }
 
@@ -114,8 +114,8 @@ export function analyzeAddressRisk(input: AddressRiskInput) {
     risks.push({
       code: 'recipient-frozen',
       severity: 'danger',
-      title: 'Recipient wallet is frozen',
-      description: 'This destination is in a frozen state. Sending there is unusual and should be treated as high risk.',
+      title: 'Кошелек заморожен',
+      description: 'Перевод на такой адрес рискован.',
     })
   }
 
@@ -123,8 +123,8 @@ export function analyzeAddressRisk(input: AddressRiskInput) {
     risks.push({
       code: 'similar-recipient',
       severity: 'danger',
-      title: 'Recipient looks similar to a known address',
-      description: `This address is close to ${similarRecipient.addressFriendly}. Clipboard substitution or manual copy mistakes are realistic here.`,
+      title: 'Адрес похож на знакомый',
+      description: `Похож на ${similarRecipient.addressFriendly}. Проверьте внимательно.`,
     })
   }
 
@@ -132,8 +132,8 @@ export function analyzeAddressRisk(input: AddressRiskInput) {
     risks.push({
       code: 'new-recipient',
       severity: 'info',
-      title: 'First time sending to this address',
-      description: 'This target is not in the local recipient history yet.',
+      title: 'Новый адрес',
+      description: 'Вы еще не отправляли на него.',
     })
   }
 

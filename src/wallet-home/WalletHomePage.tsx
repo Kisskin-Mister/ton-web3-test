@@ -29,13 +29,13 @@ const syncTimeFormatter = new Intl.DateTimeFormat(undefined, {
 function formatContractState(state?: 'active' | 'frozen' | 'uninitialized') {
   switch (state) {
     case 'active':
-      return 'Active'
+      return 'Активен'
     case 'frozen':
-      return 'Frozen'
+      return 'Заморожен'
     case 'uninitialized':
-      return 'Not deployed'
+      return 'Не активен'
     default:
-      return 'Updating'
+      return 'Обновление'
   }
 }
 
@@ -44,8 +44,8 @@ function ActivityRow({ activity }: { activity: WalletActivity }) {
   const amountClass = activity.direction === 'system' ? 'system' : activity.direction
   const counterpartyLabel = activity.counterpartyFriendly
     ? shortAddress(activity.counterpartyFriendly, 7)
-    : 'Wallet state update'
-  const statusLabel = activity.status === 'failed' ? 'Failed' : 'Confirmed'
+    : 'Обновление кошелька'
+  const statusLabel = activity.status === 'failed' ? 'Ошибка' : 'Подтверждено'
 
   return (
     <article className="activity-row">
@@ -93,7 +93,7 @@ export function WalletHomePage() {
       <section className="hero-card">
         <div className="hero-head">
           <div>
-            <p className="section-overline">TON Testnet Wallet</p>
+            <p className="section-overline">TON Testnet</p>
             <h2 className="hero-value">
               {overviewQuery.data ? `${formatTonAmount(overviewQuery.data.balanceNano, 6)} TON` : '-- TON'}
             </h2>
@@ -102,10 +102,6 @@ export function WalletHomePage() {
             {formatContractState(overviewQuery.data?.contractState)}
           </span>
         </div>
-
-        <p className="hero-subtitle">
-          Balance, address, and the latest activity in a Telegram-style wallet shell.
-        </p>
 
         <button
           className="address-strip"
@@ -120,22 +116,22 @@ export function WalletHomePage() {
           type="button"
         >
           <div className="address-main">
-            <span className="detail-label">Wallet address</span>
-            <strong>{shortAddress(overviewQuery.data?.addressFriendly ?? 'Loading address', 8)}</strong>
+            <span className="detail-label">Адрес</span>
+            <strong>{shortAddress(overviewQuery.data?.addressFriendly ?? 'Загрузка', 8)}</strong>
           </div>
           <span className="action-inline">
             <Copy size={16} />
-            Copy
+            Копировать
           </span>
         </button>
 
         <div className="hero-footer">
           <span>
             {overviewQuery.data
-              ? `Updated ${syncTimeFormatter.format(new Date(overviewQuery.data.lastUpdatedAt))}`
-              : 'Updating wallet overview'}
+              ? `Обновлено в ${syncTimeFormatter.format(new Date(overviewQuery.data.lastUpdatedAt))}`
+              : 'Обновляем'}
           </span>
-          <span>{overviewQuery.isFetching ? 'Refreshing…' : 'Synced'}</span>
+          <span>{overviewQuery.isFetching ? 'Загрузка…' : 'Готово'}</span>
         </div>
       </section>
 
@@ -143,24 +139,24 @@ export function WalletHomePage() {
         <Link className="action-card primary" to="/receive">
           <QrCode size={22} weight="fill" />
           <div>
-            <strong>Receive</strong>
-            <span>Address and QR</span>
+            <strong>Получить</strong>
+            <span>QR и адрес</span>
           </div>
         </Link>
 
         <Link className="action-card" to="/send">
           <PaperPlaneTilt size={22} weight="fill" />
           <div>
-            <strong>Send</strong>
-            <span>Transfer TON</span>
+            <strong>Отправить</strong>
+            <span>Перевод</span>
           </div>
         </Link>
 
         <button className="action-card" onClick={() => void overviewQuery.refetch()} type="button">
           <ArrowsClockwise size={22} weight="fill" />
           <div>
-            <strong>Refresh</strong>
-            <span>Pull latest data</span>
+            <strong>Обновить</strong>
+            <span>Баланс</span>
           </div>
         </button>
       </section>
@@ -168,9 +164,8 @@ export function WalletHomePage() {
       <section className="sheet-card">
         <div className="section-heading">
           <div>
-            <p className="section-overline">Recent Activity</p>
-            <h2 className="section-title">Transactions</h2>
-            <p className="section-copy">Search by address, hash, or summary.</p>
+            <p className="section-overline">История</p>
+            <h2 className="section-title">Транзакции</h2>
           </div>
           <span className="header-chip">{filteredActivities.length}</span>
         </div>
@@ -179,20 +174,20 @@ export function WalletHomePage() {
           <MagnifyingGlass size={18} />
           <input
             onChange={(event) => setSearch(event.target.value)}
-            placeholder="Search by address or tx hash"
+            placeholder="Поиск по адресу или хэшу"
             type="search"
             value={search}
           />
         </label>
 
-        {overviewQuery.isLoading ? <p className="helper-text">Loading wallet overview…</p> : null}
+        {overviewQuery.isLoading ? <p className="helper-text">Загрузка…</p> : null}
         {overviewQuery.isError ? (
           <div className="notice-card warning">
-            <p>Failed to load blockchain data. Check the testnet RPC and try refreshing again.</p>
+            <p>Не удалось загрузить данные сети.</p>
           </div>
         ) : null}
         {!overviewQuery.isLoading && filteredActivities.length === 0 ? (
-          <p className="helper-text">No transactions matched the current filter.</p>
+          <p className="helper-text">Ничего не найдено.</p>
         ) : null}
 
         <div className="activity-list">

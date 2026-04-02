@@ -22,31 +22,35 @@ const FEE_BUFFER_NANO = toNano('0.05')
 const QUICK_AMOUNTS = ['0.2', '0.5', '1']
 
 const sendSchema = z.object({
-  recipient: z.string().trim().min(1, 'Recipient address is required'),
+  recipient: z.string().trim().min(1, 'Введите адрес получателя'),
   amount: z
     .string()
     .trim()
-    .min(1, 'Amount is required')
+    .min(1, 'Введите сумму')
     .refine((value) => {
       try {
         return toNano(value) > 0n
       } catch {
         return false
       }
-    }, 'Enter a valid TON amount'),
+    }, 'Некорректная сумма'),
 })
 
 function formatRecipientState(state?: 'active' | 'frozen' | 'uninitialized') {
   switch (state) {
     case 'active':
-      return 'Active contract'
+      return 'Активен'
     case 'frozen':
-      return 'Frozen contract'
+      return 'Заморожен'
     case 'uninitialized':
-      return 'Not deployed'
+      return 'Не активен'
     default:
-      return 'Checking…'
+      return 'Проверка…'
   }
+}
+
+function formatTransferStatus(status: TransferResult['status']) {
+  return status === 'confirmed' ? 'Подтверждено' : 'Отправлено'
 }
 
 export function SendPage() {
@@ -106,7 +110,7 @@ export function SendPage() {
       trustRecipient: boolean
     }) => {
       if (!session) {
-        throw new Error('Unlock the wallet first')
+        throw new Error('Сначала разблокируйте кошелек')
       }
 
       return sendTonTransfer({
@@ -141,12 +145,12 @@ export function SendPage() {
     })
 
     if (!validation.success) {
-      setFormError(validation.error.issues[0]?.message ?? 'Form is invalid')
+      setFormError(validation.error.issues[0]?.message ?? 'Проверьте форму')
       return
     }
 
     if (!parsedRecipient) {
-      setFormError('Recipient address is not valid TON format')
+      setFormError('Некорректный TON-адрес')
       return
     }
 
@@ -154,12 +158,12 @@ export function SendPage() {
     const availableBalance = overviewQuery.data?.balanceNano ?? 0n
 
     if (amountNano + FEE_BUFFER_NANO > availableBalance) {
-      setFormError('Balance is too low for the amount plus a small fee buffer')
+      setFormError('Недостаточно баланса с учетом комиссии')
       return
     }
 
     if (needsRiskConfirmation && !riskConfirmed) {
-      setFormError('Review the warnings and confirm the risky transfer before sending')
+      setFormError('Подтвердите перевод после проверки предупреждений')
       return
     }
 
@@ -175,31 +179,30 @@ export function SendPage() {
   return (
     <div className="page-screen">
       <section className="page-hero">
-        <p className="section-overline">Send TON</p>
-        <h2 className="page-title">Transfer on testnet</h2>
-        <p className="page-copy">The wallet normalizes the address, checks recipient state, and keeps risky sends explicit.</p>
+        <p className="section-overline">Отправка</p>
+        <h2 className="page-title">Перевод TON</h2>
       </section>
 
       <section className="sheet-card">
         <div className="section-heading">
           <div>
-            <p className="section-overline">Transfer Details</p>
-            <h2 className="section-title">Recipient and amount</h2>
+            <p className="section-overline">Перевод</p>
+            <h2 className="section-title">Получатель и сумма</h2>
             <p className="section-copy">
-              Available balance: {overviewQuery.data ? `${formatTonAmount(overviewQuery.data.balanceNano, 6)} TON` : '--'}
+              Баланс: {overviewQuery.data ? `${formatTonAmount(overviewQuery.data.balanceNano, 6)} TON` : '--'}
             </p>
           </div>
         </div>
 
         <label className="form-field">
-          <span className="form-label">Recipient address</span>
+          <span className="form-label">Адрес получателя</span>
           <input
             className="text-input"
             onChange={(event) => {
               setRecipientInput(event.target.value)
               setFormError(null)
             }}
-            placeholder="EQ... or 0:..."
+            placeholder="EQ... или 0:..."
             spellCheck={false}
             type="text"
             value={recipientInput}
@@ -229,20 +232,20 @@ export function SendPage() {
         {parsedRecipient ? (
           <div className="detail-list">
             <div className="detail-row">
-              <span className="detail-label">Normalized</span>
+              <span className="detail-label">Адрес</span>
               <strong>{shortAddress(parsedRecipient.addressFriendly, 8)}</strong>
             </div>
             <div className="detail-row">
-              <span className="detail-label">Recipient state</span>
+              <span className="detail-label">Статус</span>
               <strong>
                 {recipientStateQuery.isLoading
-                  ? 'Checking…'
+                  ? 'Проверка…'
                   : formatRecipientState(recipientStateQuery.data?.state)}
               </strong>
             </div>
             <div className="detail-row">
-              <span className="detail-label">Network marker</span>
-              <strong>{parsedRecipient.isTestOnly ? 'testOnly' : 'not explicit'}</strong>
+              <span className="detail-label">Флаг</span>
+              <strong>{parsedRecipient.isTestOnly ? 'testOnly' : 'без флага'}</strong>
             </div>
           </div>
         ) : null}
@@ -257,12 +260,12 @@ export function SendPage() {
             type="button"
           >
             <Copy size={18} />
-            Copy normalized
+            Копировать адрес
           </button>
         ) : null}
 
         <label className="form-field">
-          <span className="form-label">Amount</span>
+          <span className="form-label">Сумма</span>
           <input
             className="text-input"
             inputMode="decimal"
@@ -298,12 +301,12 @@ export function SendPage() {
             onChange={(event) => setTrustRecipient(event.target.checked)}
             type="checkbox"
           />
-          <span>Mark this recipient as trusted after a successful transfer on this device.</span>
+          <span>Запомнить как доверенный адрес.</span>
         </label>
 
         {overviewQuery.isError ? (
           <div className="notice-card warning">
-            <p>Wallet balance could not be refreshed. Verify the testnet RPC before sending.</p>
+            <p>Не удалось обновить баланс.</p>
           </div>
         ) : null}
       </section>
@@ -312,8 +315,8 @@ export function SendPage() {
         <section className="sheet-card danger-sheet">
           <div className="section-heading">
             <div>
-              <p className="section-overline">Risk Checks</p>
-              <h2 className="section-title">Review before sending</h2>
+              <p className="section-overline">Проверка</p>
+              <h2 className="section-title">Предупреждения</h2>
             </div>
           </div>
 
@@ -338,7 +341,7 @@ export function SendPage() {
             onChange={(event) => setRiskConfirmed(event.target.checked)}
             type="checkbox"
           />
-          <span>I reviewed the warnings above and still want to send this testnet transfer.</span>
+          <span>Подтверждаю перевод.</span>
         </label>
       ) : null}
 
@@ -351,14 +354,14 @@ export function SendPage() {
         type="button"
       >
         <PaperPlaneTilt size={18} weight="fill" />
-        {sendMutation.isPending ? 'Sending…' : 'Send TON'}
+        {sendMutation.isPending ? 'Отправка…' : 'Отправить'}
       </button>
 
       {sendMutation.data ? <TransferResultCard result={sendMutation.data} /> : null}
       {sendMutation.isError ? (
         <section className="sheet-card">
           <div className="notice-card danger">
-            <p>The transfer failed before confirmation. Check the recipient, balance, and testnet RPC availability.</p>
+            <p>Перевод не подтвердился.</p>
           </div>
         </section>
       ) : null}
@@ -371,25 +374,20 @@ function TransferResultCard({ result }: { result: TransferResult }) {
     <section className="sheet-card">
       <div className="section-heading">
         <div>
-          <p className="section-overline">Transfer Result</p>
-          <h2 className="section-title">Status</h2>
-          <p className="section-copy">
-            {result.status === 'confirmed'
-              ? 'Seqno changed and the latest transaction list was refreshed.'
-              : 'The transfer was submitted, but chain confirmation is still pending.'}
-          </p>
+          <p className="section-overline">Результат</p>
+          <h2 className="section-title">Статус</h2>
         </div>
-        <span className={`status-pill ${result.status}`}>{result.status}</span>
+        <span className={`status-pill ${result.status}`}>{formatTransferStatus(result.status)}</span>
       </div>
 
       <div className="detail-list">
         <div className="detail-row">
-          <span className="detail-label">Recipient</span>
+          <span className="detail-label">Получатель</span>
           <strong>{shortAddress(result.recipientFriendly, 8)}</strong>
         </div>
         <div className="detail-row">
-          <span className="detail-label">Tx hash</span>
-          <strong>{result.activity ? shortAddress(result.activity.hashHex, 8) : 'Pending lookup'}</strong>
+          <span className="detail-label">Хэш</span>
+          <strong>{result.activity ? shortAddress(result.activity.hashHex, 8) : 'Ожидание'}</strong>
         </div>
       </div>
 
@@ -404,7 +402,7 @@ function TransferResultCard({ result }: { result: TransferResult }) {
             type="button"
           >
             <Copy size={18} />
-            Copy hash
+            Копировать хэш
           </button>
         ) : null}
 
@@ -412,12 +410,12 @@ function TransferResultCard({ result }: { result: TransferResult }) {
           {result.status === 'confirmed' ? (
             <>
               <CheckCircle size={16} weight="fill" />
-              Confirmed
+              Подтверждено
             </>
           ) : (
             <>
               <ShieldCheck size={16} weight="fill" />
-              Awaiting confirmation
+              В ожидании
             </>
           )}
         </span>

@@ -78,7 +78,7 @@ export function mapTransactionsToActivities(walletAddress: Address, transactions
         amountNano: outgoingMessage.info.value.coins,
         counterpartyFriendly: counterparty.friendly,
         counterpartyRaw: counterparty.raw,
-        summary: `Sent to ${counterparty.friendly}`,
+        summary: `Отправлено: ${counterparty.friendly}`,
       } satisfies WalletActivity
     }
 
@@ -94,7 +94,7 @@ export function mapTransactionsToActivities(walletAddress: Address, transactions
         amountNano: incomingMessage.info.value.coins,
         counterpartyFriendly: counterparty.friendly,
         counterpartyRaw: counterparty.raw,
-        summary: `Received from ${counterparty.friendly}`,
+        summary: `Получено: ${counterparty.friendly}`,
       } satisfies WalletActivity
     }
 
@@ -104,7 +104,7 @@ export function mapTransactionsToActivities(walletAddress: Address, transactions
       amountNano: getInternalValue(incomingMessage ?? undefined),
       counterpartyFriendly: null,
       counterpartyRaw: null,
-      summary: 'Wallet state update',
+      summary: 'Обновление кошелька',
     } satisfies WalletActivity
   })
 }

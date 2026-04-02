@@ -16,7 +16,7 @@
   padding-top: max(24px, calc(env(safe-area-inset-top) + 24px));
   padding-bottom: max(24px, calc(env(safe-area-inset-bottom) + 24px));
   display: grid;
-  gap: 14px;
+  gap: 20px;
   align-content: start;
 }
 
@@ -183,7 +183,7 @@
 }
 
 .page-screen {
-  gap: 14px;
+  gap: 22px;
 }
 
 .page-hero,
@@ -209,8 +209,8 @@
 }
 
 .page-hero {
-  gap: 6px;
-  padding: 4px 2px;
+  gap: 8px;
+  padding: 10px 2px 2px;
 }
 
 .page-copy,
@@ -237,13 +237,13 @@
 .sheet-card,
 .auth-card,
 .hero-card {
-  padding: 16px;
+  padding: 20px;
 }
 
 .auth-card,
 .loading-card {
   display: grid;
-  gap: 14px;
+  gap: 20px;
 }
 
 .auth-hero {
@@ -252,7 +252,7 @@
 
 .hero-card {
   display: grid;
-  gap: 14px;
+  gap: 18px;
   background:
     linear-gradient(180deg, color-mix(in srgb, var(--telegram-button) 10%, var(--surface-1)), var(--surface-1) 62%),
     var(--surface-1);
@@ -280,7 +280,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 14px;
+  padding: 16px;
   border: 1px solid var(--surface-outline);
   border-radius: var(--radius-md);
   background: var(--surface-2);
@@ -304,22 +304,22 @@
 .hero-footer {
   display: flex;
   justify-content: space-between;
-  gap: 12px;
+  gap: 14px;
   font-size: 0.85rem;
 }
 
 .action-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
+  gap: 14px;
 }
 
 .action-card {
-  min-height: 92px;
+  min-height: 104px;
   flex-direction: column;
   justify-content: space-between;
-  gap: 14px;
-  padding: 14px;
+  gap: 18px;
+  padding: 16px;
   border-radius: var(--radius-md);
   border: 1px solid var(--surface-outline);
   background: var(--surface-1);
@@ -347,9 +347,9 @@
 
 .search-field {
   align-items: center;
-  gap: 10px;
-  min-height: 50px;
-  padding: 0 14px;
+  gap: 12px;
+  min-height: 54px;
+  padding: 0 16px;
   border: 1px solid var(--surface-outline);
   border-radius: var(--radius-md);
   background: var(--surface-2);
@@ -367,15 +367,15 @@
 
 .text-input,
 .text-area {
-  min-height: 52px;
-  padding: 14px 16px;
+  min-height: 56px;
+  padding: 16px 18px;
   border: 1px solid var(--surface-outline);
   border-radius: var(--radius-md);
   background: var(--surface-2);
 }
 
 .text-area {
-  min-height: 118px;
+  min-height: 132px;
   resize: vertical;
 }
 
@@ -394,19 +394,19 @@
 
 .form-field {
   display: grid;
-  gap: 8px;
+  gap: 10px;
 }
 
 .detail-list,
 .notice-stack,
 .activity-list,
 .seed-grid {
-  gap: 8px;
+  gap: 12px;
 }
 
 .detail-row {
   align-items: center;
-  padding: 12px 14px;
+  padding: 14px 16px;
   border: 1px solid var(--surface-outline);
   border-radius: 16px;
   background: var(--surface-2);
@@ -422,12 +422,12 @@
 .chip-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
 }
 
 .chip-button {
-  min-height: 34px;
-  padding: 0 12px;
+  min-height: 38px;
+  padding: 0 14px;
   border: 1px solid var(--surface-outline);
   border-radius: 999px;
   background: var(--surface-2);
@@ -444,8 +444,8 @@
 
 .check-row {
   align-items: flex-start;
-  gap: 12px;
-  padding: 14px;
+  gap: 14px;
+  padding: 16px;
   border: 1px solid var(--surface-outline);
   border-radius: var(--radius-md);
   background: var(--surface-2);
@@ -462,8 +462,8 @@
 
 .notice-card {
   display: grid;
-  gap: 8px;
-  padding: 14px;
+  gap: 10px;
+  padding: 16px;
   border-radius: var(--radius-md);
   background: var(--surface-2);
   border: 1px solid var(--surface-outline);
@@ -527,8 +527,8 @@
 
 .activity-row {
   align-items: flex-start;
-  gap: 12px;
-  padding: 14px;
+  gap: 14px;
+  padding: 16px;
   border: 1px solid var(--surface-outline);
   border-radius: var(--radius-md);
   background: var(--surface-1);
@@ -591,9 +591,9 @@
 .secondary-button {
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-height: 50px;
-  padding: 0 16px;
+  gap: 10px;
+  min-height: 54px;
+  padding: 0 18px;
   border-radius: 16px;
   border: 1px solid transparent;
   font-weight: 700;
@@ -645,7 +645,7 @@
 
 .receive-layout {
   display: grid;
-  gap: 18px;
+  gap: 24px;
   align-items: center;
 }
 
@@ -671,13 +671,13 @@
 
 .receive-copy {
   display: grid;
-  gap: 14px;
+  gap: 18px;
 }
 
 .mono-block {
   display: block;
   width: 100%;
-  padding: 14px;
+  padding: 16px;
   border-radius: 16px;
   border: 1px solid var(--surface-outline);
   background: var(--surface-2);
@@ -694,9 +694,9 @@
 .seed-chip {
   display: flex;
   align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 10px 12px;
+  gap: 10px;
+  min-height: 48px;
+  padding: 12px 14px;
   border-radius: 16px;
   border: 1px solid var(--surface-outline);
   background: var(--surface-2);
@@ -730,15 +730,15 @@
 .segment-control {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 6px;
-  padding: 6px;
+  gap: 8px;
+  padding: 8px;
   border-radius: 18px;
   background: var(--surface-3);
   border: 1px solid var(--surface-outline);
 }
 
 .segment-button {
-  min-height: 42px;
+  min-height: 46px;
   display: inline-flex;
   align-items: center;
   justify-content: center;

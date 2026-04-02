@@ -32,15 +32,14 @@ export function UnlockPage() {
         <div className="auth-icon" aria-hidden="true">
           <LockSimple size={28} weight="fill" />
         </div>
-        <p className="section-overline">Encrypted Local Vault</p>
-        <h1 className="auth-title">Unlock wallet</h1>
-        <p className="auth-subtitle">The mnemonic stays encrypted on this device and is decrypted only in memory.</p>
-        <div className="header-chip">{shortAddress(envelope?.meta.addressFriendly ?? 'Unknown wallet', 8)}</div>
+        <p className="section-overline">Локальное хранилище</p>
+        <h1 className="auth-title">Разблокировка</h1>
+        <div className="header-chip">{shortAddress(envelope?.meta.addressFriendly ?? 'Неизвестный кошелек', 8)}</div>
       </section>
 
       <section className="auth-card">
         <label className="form-field">
-          <span className="form-label">Password</span>
+          <span className="form-label">Пароль</span>
           <input
             autoComplete="current-password"
             className="text-input"
@@ -48,7 +47,7 @@ export function UnlockPage() {
               setPassword(event.target.value)
               clearError()
             }}
-            placeholder="Enter vault password"
+            placeholder="Введите пароль"
             type="password"
             value={password}
           />
@@ -58,13 +57,13 @@ export function UnlockPage() {
 
         <button className="primary-button large-button" disabled={isBusy} onClick={() => void handleUnlock()} type="button">
           <LockSimple size={18} weight="fill" />
-          {isBusy ? 'Unlocking…' : 'Unlock'}
+          {isBusy ? 'Проверка…' : 'Войти'}
         </button>
 
         <button
           className="secondary-button destructive-button"
           onClick={() => {
-            const confirmed = window.confirm('Delete the local encrypted vault from this device?')
+            const confirmed = window.confirm('Удалить локальное хранилище с этого устройства?')
 
             if (confirmed) {
               clearVault()
@@ -73,7 +72,7 @@ export function UnlockPage() {
           type="button"
         >
           <Trash size={18} />
-          Reset local vault
+          Сбросить
         </button>
       </section>
     </div>

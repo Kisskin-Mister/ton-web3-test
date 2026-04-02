@@ -1,20 +1,20 @@
 # TON Vault Testnet
 
-Self-custodial TON testnet wallet built as a Telegram Mini App without a custom backend.
+Self-custodial кошелек для TON testnet в формате Telegram Mini App без собственного backend.
 
-## What Is Included
+## Что реализовано
 
-- create a new TON testnet wallet
-- import an existing 24-word wallet
-- local encrypted vault with password unlock
-- balance and recent transaction history
-- search across recent transactions
-- receive screen with address copy and QR code
-- send flow with validation and async result states
-- address-risk warnings for substitution-like scenarios
-- Telegram theme integration, back button support, haptics, mobile-first UI
+- создание нового кошелька TON testnet
+- импорт существующего кошелька по seed-фразе из 24 слов
+- локальное зашифрованное хранилище с паролем
+- баланс и история последних транзакций
+- поиск по истории
+- экран получения с адресом и QR-кодом
+- экран отправки с валидацией и понятным результатом
+- предупреждения о рискованных адресах
+- интеграция с Telegram theme, back button и haptics
 
-## Stack
+## Стек
 
 - `Vite`
 - `React 19`
@@ -25,42 +25,42 @@ Self-custodial TON testnet wallet built as a Telegram Mini App without a custom 
 - `Zustand`
 - `Web Crypto API`
 
-## Local Run
+## Локальный запуск
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open the local Vite URL in a browser.
+После запуска открой локальный URL от Vite в браузере.
 
-## Production Build Check
+## Проверка production-сборки
 
 ```bash
 npm run build
 npm run preview
 ```
 
-This serves the production `dist` build locally and is the fastest way to verify that the app works after minification.
+Это запускает локально уже собранный `dist`, а не dev-режим.
 
-## Deploy As Mini App
+## Деплой
 
-The app is static and uses `HashRouter`, so it can be deployed to any HTTPS static hosting:
+Приложение статическое и использует `HashRouter`, поэтому его можно выкладывать на любой HTTPS static hosting:
 
 - Vercel
 - Netlify
 - Cloudflare Pages
 - GitHub Pages
 
-For Vercel:
+Для Vercel:
 
-1. Import the repository into Vercel.
-2. Keep framework preset as `Vite`.
-3. Use build command `npm run build`.
-4. Use output directory `dist`.
-5. Deploy and use the produced HTTPS URL as the Telegram Mini App URL.
+1. Импортировать репозиторий в Vercel.
+2. Оставить preset `Vite`.
+3. Build command: `npm run build`
+4. Output directory: `dist`
+5. Использовать выданный HTTPS URL как Mini App URL в Telegram.
 
-## Scripts
+## Скрипты
 
 ```bash
 npm run dev
@@ -70,9 +70,13 @@ npm run lint
 npm run test
 ```
 
-## Submission Checklist
+## Что приложить при сдаче
 
-Before sending the solution:
+1. Ссылку на репозиторий
+2. Этот README с инструкцией по запуску
+3. Описание архитектуры, компромиссов и логики проверок в `docs/`
+
+## Проверка перед отправкой
 
 ```bash
 npm run test
@@ -80,14 +84,8 @@ npm run lint
 npm run build
 ```
 
-What to include:
+## Документация
 
-1. Repository link
-2. This README with run instructions
-3. Architecture and tradeoff notes in `docs/`
-
-## Documentation
-
-- [Architecture](./docs/architecture.md)
-- [Critical Questions](./docs/critical-questions.md)
-- [Design Research](./docs/design-research.md)
+- [Архитектура](./docs/architecture.md)
+- [Ключевые вопросы](./docs/critical-questions.md)
+- [Дизайн](./docs/design-research.md)

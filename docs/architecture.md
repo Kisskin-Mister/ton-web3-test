@@ -1,66 +1,66 @@
-# Architecture
+# Архитектура
 
-## Product Shape
+## Форма продукта
 
-The app is a client-only Telegram Mini App for TON testnet. No backend is used for wallet creation, signing, balance reads, transaction history, or UX storage.
+Это клиентский Telegram Mini App для TON testnet. Backend не используется ни для создания кошелька, ни для подписи транзакций, ни для чтения баланса, ни для хранения UX-данных.
 
-## Main Decisions
+## Основные решения
 
-- `Vite` instead of `Next.js`: no SSR, no API routes, no SEO need, static deploy is enough.
-- `WalletContractV5R1` on testnet: uses the explicit testnet `networkGlobalId = -3`.
-- Browser vault: the mnemonic is encrypted with `PBKDF2 + AES-GCM` and only decrypted into memory after unlock.
-- Decentralized RPC access: `@orbs-network/ton-access` provides a backend-free testnet endpoint.
-- `HashRouter`: avoids static hosting rewrite requirements and works predictably inside a Mini App shell.
+- `Vite` вместо `Next.js`: SSR и API-роуты не нужны, статический деплой проще.
+- `WalletContractV5R1` в testnet: используется явный `networkGlobalId = -3`.
+- Локальное хранилище: seed-фраза шифруется через `PBKDF2 + AES-GCM` и расшифровывается только в памяти после ввода пароля.
+- Доступ к RPC без backend: `@orbs-network/ton-access`.
+- `HashRouter`: не требует rewrite rules на статическом хостинге и стабильно работает в Mini App.
 
-## Layers
+## Слои
 
 - `src/telegram-shell`
-  Telegram Web App integration, theme application, back button, haptics, clipboard helpers.
+  Интеграция с Telegram Web App API, тема, back button, haptics, clipboard.
 - `src/wallet-vault`
-  Password-based encryption and local vault persistence.
+  Шифрование, дешифрование и локальное хранение vault.
 - `src/ton-wallet`
-  TON wallet derivation, blockchain client, overview fetches, transfer execution, transaction mapping.
+  Создание кошелька, работа с TON client, баланс, история, отправка.
 - `src/address-risk`
-  Risk engine for address substitution-like scenarios.
+  Локальная логика предупреждений перед отправкой.
 - `src/*-flow`, `src/*-home`
-  Feature pages and screen-level logic.
+  Экранный UI и orchestration на уровне сценариев.
 
-## Data Model
+## Модель данных
 
-### Persistent
+### Хранится локально
 
-- Encrypted mnemonic blob
-- Wallet public metadata: address, public key, created timestamp
-- Local recipient registry for trust/reuse heuristics
+- зашифрованная seed-фраза
+- публичные метаданные кошелька
+- локальная история адресов получателей
 
-### In-Memory Only
+### Только в памяти
 
-- Decrypted mnemonic
-- Secret key
-- Wallet contract instance
+- расшифрованная seed-фраза
+- secret key
+- экземпляр wallet contract
 
-## Send Flow
+## Сценарий отправки
 
-1. Parse and normalize the recipient address.
-2. Fetch recipient contract state.
-3. Run local risk analysis.
-4. Require explicit confirmation for warning/danger states.
-5. Sign and submit the transfer in-browser.
-6. Poll wallet `seqno` and latest transactions for a clearer post-send result.
+1. Нормализовать адрес получателя.
+2. Проверить состояние получателя в сети.
+3. Запустить локальные risk-проверки.
+4. Запросить подтверждение для warning/danger кейсов.
+5. Подписать и отправить перевод в браузере.
+6. Дождаться смены `seqno` и обновить историю.
 
-## Anti-Substitution Logic
+## Логика защиты от адрес-подмены
 
-- Warn on raw-format addresses.
-- Warn when a friendly address does not carry the `testOnly` flag.
-- Warn on self-transfer.
-- Warn on uninitialized or frozen recipient state.
-- Warn when the address is visually similar to a previously used recipient but not identical.
-- Warn when the address is completely new.
+- предупреждение для raw-адресов
+- предупреждение при отсутствии `testOnly` у friendly-адреса
+- предупреждение при переводе на свой адрес
+- предупреждение для неактивного или frozen адреса
+- предупреждение, если адрес визуально похож на уже известный
+- информационная пометка для нового адреса
 
-## Known Trade-Offs
+## Компромиссы
 
-- No server verification of Telegram `initData`.
-- No hardware-backed key storage.
-- No multi-account support.
-- No jettons, comments, or contact book yet.
-- Clipboard malware cannot be fully defeated in a browser-only app, so the defense is UX-driven rather than absolute.
+- нет серверной валидации `Telegram initData`
+- нет аппаратного хранилища ключей
+- нет multi-account режима
+- нет jettons, комментариев и адресной книги
+- защита от clipboard malware сделана на уровне UX, а не как абсолютная гарантия

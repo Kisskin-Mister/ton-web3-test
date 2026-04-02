@@ -1,54 +1,53 @@
-# Design Research
+# Дизайн
 
-## Target Direction
+## Целевое направление
 
-`Telegram Mini App shell + TON Space-inspired wallet UX + compact mobile-first layout`
+`Telegram Mini App shell + UX в духе TON Space + компактный мобильный интерфейс`
 
-The interface should feel native inside Telegram first. The goal is not decorative novelty, but a wallet layout that looks credible in a Mini App review: clear hierarchy, obvious actions, readable status states, and warnings that stand out.
+Интерфейс должен в первую очередь выглядеть естественно внутри Telegram. Цель не в декоративности, а в том, чтобы кошелек выглядел аккуратно, читаемо и убедительно в рамках тестового задания.
 
-## Sources
+## На что опирался дизайн
 
 - Telegram Mini Apps theming docs:
   https://docs.telegram-mini-apps.com/platform/theming
 - Telegram Mini Apps package docs:
   https://docs.telegram-mini-apps.com/packages/tma-js-sdk-react
-- TON Space product direction as the closest wallet reference inside the Telegram ecosystem
+- TON Space как ближайший ориентир по wallet UX внутри Telegram-экосистемы
 
-## What We Take From Telegram
+## Что берем из Telegram
 
-- Respect host-driven light and dark mode.
-- Use Telegram theme variables as the primary palette source.
-- Keep spacing compact and touch-first.
-- Prefer grouped sections and bottom navigation over desktop-like layouts.
+- уважение к light/dark theme хоста
+- Telegram CSS variables как база палитры
+- плотный mobile-first layout
+- группировка контента по секциям
 
-## What We Take From TON Space
+## Что берем из TON Space
 
-- Large balance hero at the top.
-- Strong primary actions for send and receive.
-- Clean list-style transaction history.
-- Wallet UI that feels trustworthy before it feels decorative.
+- крупный баланс в верхней части
+- быстрые действия для send/receive
+- список транзакций в понятном листовом формате
+- ощущение “кошелька”, а не промо-страницы
 
-## Implementation Decisions
+## Реализация
 
-- Static header with compact wallet identity.
-- Bottom tab bar for core navigation.
-- Flat Telegram-like section cards instead of glass-heavy surfaces.
-- Short page enter animations only.
-- High-contrast warning blocks for risky transfers.
+- компактный header
+- нижняя навигация tab bar
+- плоские section cards вместо тяжелого glassmorphism
+- короткие анимации появления экранов
+- контрастные warning/danger блоки для рискованных переводов
 
-## Explicit Constraint
+## Ограничение
 
-The app still needs to feel like a testnet wallet, not a landing page. That means:
+Интерфейс должен оставаться минималистичным. Поэтому:
 
-- readable address blocks
-- immediate balance visibility
-- obvious send and receive entry points
-- warnings that do not blend into the rest of the interface
+- описательный текст сокращен
+- акцент сделан на действиях и статусах
+- предупреждения оставлены заметными
 
-## Resulting Design Language
+## Итоговый визуальный язык
 
-- `Background`: soft Telegram-driven gradient, subtle only
-- `Surface`: rounded section cards with light borders and shadow
-- `Typography`: system-native stack for Telegram familiarity
-- `Motion`: restrained opacity and translate transitions
-- `Warnings`: amber and red blocks with stronger contrast than default surfaces
+- `Фон`: мягкий Telegram-градиент
+- `Поверхности`: округлые карточки с тонкой обводкой
+- `Типографика`: системный стек
+- `Анимация`: короткий fade/translate
+- `Предупреждения`: янтарные и красные блоки с повышенным контрастом

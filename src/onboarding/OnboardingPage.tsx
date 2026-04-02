@@ -8,16 +8,16 @@ import { useVaultStore } from '../wallet-vault/useVaultStore'
 
 const createVaultSchema = z
   .object({
-    password: z.string().min(MIN_PASSWORD_LENGTH, `Use at least ${MIN_PASSWORD_LENGTH} characters`),
+    password: z.string().min(MIN_PASSWORD_LENGTH, `Минимум ${MIN_PASSWORD_LENGTH} символов`),
     confirmPassword: z.string(),
   })
   .refine((value) => value.password === value.confirmPassword, {
     path: ['confirmPassword'],
-    message: 'Passwords do not match',
+    message: 'Пароли не совпадают',
   })
 
 const importVaultSchema = createVaultSchema.extend({
-  mnemonic: z.string().min(1, 'Paste the recovery phrase'),
+  mnemonic: z.string().min(1, 'Вставьте seed-фразу'),
 })
 
 type TabKey = 'create' | 'import'
@@ -73,17 +73,17 @@ export function OnboardingPage() {
     })
 
     if (!validation.success) {
-      setCreateError(validation.error.issues[0]?.message ?? 'Form is invalid')
+      setCreateError(validation.error.issues[0]?.message ?? 'Проверьте форму')
       return
     }
 
     if (generatedMnemonic.length !== 24) {
-      setCreateError('Generate a valid 24-word recovery phrase first')
+      setCreateError('Сначала сгенерируйте seed-фразу')
       return
     }
 
     if (!createConfirmed) {
-      setCreateError('Confirm that the recovery phrase is safely stored before continuing')
+      setCreateError('Подтвердите, что сохранили seed-фразу')
       return
     }
 
@@ -110,7 +110,7 @@ export function OnboardingPage() {
     })
 
     if (!validation.success) {
-      setImportError(validation.error.issues[0]?.message ?? 'Form is invalid')
+      setImportError(validation.error.issues[0]?.message ?? 'Проверьте форму')
       return
     }
 
@@ -135,11 +135,8 @@ export function OnboardingPage() {
         <div className="auth-icon" aria-hidden="true">
           <Wallet size={28} weight="fill" />
         </div>
-        <p className="section-overline">TON Testnet Wallet</p>
-        <h1 className="auth-title">Set up your wallet</h1>
-        <p className="auth-subtitle">
-          Create a fresh self-custodial wallet or import an existing phrase. The encrypted vault stays only on this device.
-        </p>
+        <p className="section-overline">TON Testnet</p>
+        <h1 className="auth-title">Создание кошелька</h1>
       </section>
 
       <section className="auth-card">
@@ -154,7 +151,7 @@ export function OnboardingPage() {
             type="button"
           >
             <ShieldCheck size={18} />
-            Create
+            Создать
           </button>
           <button
             className={`segment-button ${tab === 'import' ? 'active' : ''}`}
@@ -166,7 +163,7 @@ export function OnboardingPage() {
             type="button"
           >
             <DownloadSimple size={18} />
-            Import
+            Импорт
           </button>
         </div>
 
@@ -174,14 +171,13 @@ export function OnboardingPage() {
           <div className="auth-stack">
             <div className="section-heading">
               <div>
-                <p className="section-overline">Recovery Phrase</p>
-                <h2 className="section-title">Create new wallet</h2>
-                <p className="section-copy">Save the 24-word phrase offline before continuing.</p>
+                <p className="section-overline">Seed-фраза</p>
+                <h2 className="section-title">Новый кошелек</h2>
               </div>
 
               <button className="secondary-button" onClick={() => void handleGenerateMnemonic()} type="button">
                 <ArrowsClockwise size={18} />
-                Regenerate
+                Обновить
               </button>
             </div>
 
@@ -192,35 +188,35 @@ export function OnboardingPage() {
                 return (
                   <div className={`seed-chip ${word ? '' : 'loading'}`} key={`${word ?? 'placeholder'}-${index}`}>
                     <span className="seed-index">{index + 1}</span>
-                    <strong className="seed-word">{word ?? 'loading'}</strong>
+                    <strong className="seed-word">{word ?? '...'}</strong>
                   </div>
                 )
               })}
             </div>
 
             <div className="notice-card warning">
-              <p>Keep the phrase offline. Clipboard, screenshots, and chat drafts are not a secure backup.</p>
+              <p>Сохраните фразу офлайн.</p>
             </div>
 
             <label className="form-field">
-              <span className="form-label">Vault password</span>
+              <span className="form-label">Пароль</span>
               <input
                 autoComplete="new-password"
                 className="text-input"
                 onChange={(event) => setCreatePassword(event.target.value)}
-                placeholder={`At least ${MIN_PASSWORD_LENGTH} characters`}
+                placeholder={`Минимум ${MIN_PASSWORD_LENGTH} символов`}
                 type="password"
                 value={createPassword}
               />
             </label>
 
             <label className="form-field">
-              <span className="form-label">Confirm password</span>
+              <span className="form-label">Повтор пароля</span>
               <input
                 autoComplete="new-password"
                 className="text-input"
                 onChange={(event) => setCreateConfirmPassword(event.target.value)}
-                placeholder="Repeat the password"
+                placeholder="Повторите пароль"
                 type="password"
                 value={createConfirmPassword}
               />
@@ -232,28 +228,27 @@ export function OnboardingPage() {
                 onChange={(event) => setCreateConfirmed(event.target.checked)}
                 type="checkbox"
               />
-              <span>I saved the recovery phrase and understand it is the only way to restore this wallet.</span>
+              <span>Я сохранил seed-фразу.</span>
             </label>
 
             <FieldError message={createError ?? vaultError} />
 
             <button className="primary-button large-button" disabled={isBusy} onClick={() => void handleCreateVault()} type="button">
               <Wallet size={18} weight="fill" />
-              {isBusy ? 'Encrypting vault…' : 'Create wallet'}
+              {isBusy ? 'Создание…' : 'Создать'}
             </button>
           </div>
         ) : (
           <div className="auth-stack">
             <div className="section-heading">
               <div>
-                <p className="section-overline">Import Wallet</p>
-                <h2 className="section-title">Use an existing phrase</h2>
-                <p className="section-copy">Paste the 24-word phrase. Only the encrypted mnemonic blob is stored locally.</p>
+                <p className="section-overline">Импорт</p>
+                <h2 className="section-title">Существующий кошелек</h2>
               </div>
             </div>
 
             <label className="form-field">
-              <span className="form-label">Recovery phrase</span>
+              <span className="form-label">Seed-фраза</span>
               <textarea
                 className="text-area"
                 onChange={(event) => setImportMnemonic(event.target.value)}
@@ -264,24 +259,24 @@ export function OnboardingPage() {
             </label>
 
             <label className="form-field">
-              <span className="form-label">Vault password</span>
+              <span className="form-label">Пароль</span>
               <input
                 autoComplete="new-password"
                 className="text-input"
                 onChange={(event) => setImportPassword(event.target.value)}
-                placeholder={`At least ${MIN_PASSWORD_LENGTH} characters`}
+                placeholder={`Минимум ${MIN_PASSWORD_LENGTH} символов`}
                 type="password"
                 value={importPassword}
               />
             </label>
 
             <label className="form-field">
-              <span className="form-label">Confirm password</span>
+              <span className="form-label">Повтор пароля</span>
               <input
                 autoComplete="new-password"
                 className="text-input"
                 onChange={(event) => setImportConfirmPassword(event.target.value)}
-                placeholder="Repeat the password"
+                placeholder="Повторите пароль"
                 type="password"
                 value={importConfirmPassword}
               />
@@ -291,7 +286,7 @@ export function OnboardingPage() {
 
             <button className="primary-button large-button" disabled={isBusy} onClick={() => void handleImportVault()} type="button">
               <DownloadSimple size={18} weight="fill" />
-              {isBusy ? 'Importing…' : 'Import wallet'}
+              {isBusy ? 'Импорт…' : 'Импортировать'}
             </button>
           </div>
         )}

@@ -41,13 +41,13 @@ export async function buildWalletFromMnemonic(mnemonicInput: string | string[]) 
   const mnemonic = normalizeMnemonicWords(mnemonicInput)
 
   if (mnemonic.length !== 24) {
-    throw new Error('TON wallet mnemonic must contain exactly 24 words')
+    throw new Error('Seed-фраза TON должна содержать 24 слова')
   }
 
   const isValid = await mnemonicValidate(mnemonic)
 
   if (!isValid) {
-    throw new Error('Mnemonic phrase is invalid')
+    throw new Error('Некорректная seed-фраза')
   }
 
   const keyPair = await mnemonicToWalletKey(mnemonic)
@@ -82,7 +82,7 @@ export function parseRecipientAddress(input: string) {
   const trimmedInput = input.trim()
 
   if (!trimmedInput) {
-    throw new Error('Recipient address is required')
+    throw new Error('Введите адрес получателя')
   }
 
   if (Address.isFriendly(trimmedInput)) {

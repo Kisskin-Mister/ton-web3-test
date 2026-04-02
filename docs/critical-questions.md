@@ -1,86 +1,82 @@
-# Critical Questions
+# Ключевые вопросы
 
-## 1. Vite or Next.js?
+## 1. Vite или Next.js?
 
-Resolved: `Vite`
+Решение: `Vite`
 
-Why:
+Почему:
 
-- The assignment explicitly forbids a custom backend.
-- The app is a Telegram Mini App and does not need SSR or SEO.
-- Static deployment is simpler to explain and evaluate.
+- по заданию backend запрещен
+- Mini App не нужен SSR и SEO
+- статический деплой проще объяснить и проверить
 
-## 2. External wallet via TON Connect or an in-app wallet?
+## 2. TON Connect или встроенный кошелек?
 
-Resolved: in-app self-custodial wallet
+Решение: встроенный self-custodial кошелек
 
-Why:
+Почему:
 
-- The assignment asks to create or import a wallet inside the product.
-- TON Connect would solve a different problem: connecting an already existing external wallet app.
+- задание просит создать или импортировать кошелек внутри приложения
+- TON Connect решает другую задачу: подключение уже существующего внешнего кошелька
 
-## 3. Plain local storage or encrypted vault?
+## 3. Обычный localStorage или зашифрованное хранилище?
 
-Resolved: encrypted vault
+Решение: зашифрованное хранилище
 
-Why:
+Почему:
 
-- Plain text mnemonic in browser storage is too weak even for a test task.
-- Password-based encryption is a reasonable browser-only compromise.
+- хранить seed-фразу в открытом виде слишком слабо даже для тестового
+- пароль + браузерное шифрование дают разумный компромисс без backend
 
-## 4. Which TON wallet contract?
+## 4. Какой wallet contract использовать?
 
-Resolved: `WalletContractV5R1` with `networkGlobalId = -3`
+Решение: `WalletContractV5R1` с `networkGlobalId = -3`
 
-Why:
+Почему:
 
-- Keeps the wallet explicitly pinned to testnet.
-- Avoids accidental defaulting to mainnet wallet identity.
+- кошелек явно привязан к testnet
+- меньше риска случайно уйти в mainnet-идентичность
 
-## 5. Telegram SDK package or direct WebApp API?
+## 5. SDK для Telegram или прямой WebApp API?
 
-Resolved: direct `window.Telegram.WebApp`
+Решение: прямой `window.Telegram.WebApp`
 
-Why:
+Почему:
 
-- The app uses a thin subset of shell features: `ready`, `expand`, theming, haptics, and back button.
-- A direct adapter keeps the dependency surface smaller and easier to justify.
+- приложению нужен только базовый набор shell-возможностей
+- меньше зависимостей и проще объяснить архитектуру
 
-Revisit if:
+## 6. Как обрабатывать light/dark theme?
 
-- The app grows into deeper Telegram-specific features such as cloud storage, biometry, or more complex shell orchestration.
+Решение: сначала Telegram theme, вне Telegram fallback на системную тему
 
-## 6. How should light/dark theming work?
+Почему:
 
-Resolved: Telegram theme first, system fallback outside Telegram
+- внутри Telegram именно контейнер задает внешний вид
+- в браузере при локальной разработке все равно нужен адекватный fallback
 
-Why:
+## 7. Насколько строгими должны быть предупреждения?
 
-- In Telegram the host container is the authority.
-- During local browser development we still need credible dark/light behavior.
+Решение: информационные по умолчанию, обязательное подтверждение для warning/danger
 
-## 7. How strict should the risk engine be?
+Почему:
 
-Resolved: informative by default, hard-confirm for warning/danger states
+- интерфейс должен оставаться минималистичным
+- предупреждения должны быть заметными и не игнорироваться
 
-Why:
+## 8. Что хранить локально для UX?
 
-- The UI must stay minimal.
-- The warnings must be noticeable and not easy to ignore.
+Решение:
 
-## 8. How much should be stored locally for UX?
+- хранить зашифрованный vault и историю получателей
+- не хранить расшифрованные секреты
 
-Resolved:
+## 9. Какой роутер выбрать?
 
-- Persist the encrypted vault and recipient registry.
-- Do not persist decrypted secret material.
+Решение: `HashRouter`
 
-## 9. Router choice?
+Почему:
 
-Resolved: `HashRouter`
-
-Why:
-
-- Static hosting friendly.
-- No server rewrite rules required.
-- Safe default for a Mini App test task.
+- удобен для статического хостинга
+- не требует rewrite rules
+- хороший дефолт для Mini App без backend

@@ -55,7 +55,7 @@ describe('SendPage', () => {
     })
   })
 
-  it('renders recent recipients without crashing', () => {
+  it('рендерит экран с недавними получателями без падения', () => {
     const queryClient = new QueryClient({
       defaultOptions: {
         queries: { retry: false },
@@ -69,7 +69,7 @@ describe('SendPage', () => {
       </QueryClientProvider>,
     )
 
-    expect(screen.getByText('Transfer on testnet')).toBeTruthy()
+    expect(screen.getByText('Перевод TON')).toBeTruthy()
     expect(screen.getByRole('button', { name: 'addr-one' })).toBeTruthy()
     expect(screen.getByRole('button', { name: 'addr-two' })).toBeTruthy()
   })

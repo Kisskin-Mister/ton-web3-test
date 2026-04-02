@@ -13,19 +13,19 @@ import { WalletHomePage } from '../wallet-home/WalletHomePage'
 const NAV_ITEMS = [
   {
     to: '/',
-    label: 'Wallet',
+    label: 'Кошелек',
     icon: House,
     end: true,
   },
   {
     to: '/receive',
-    label: 'Receive',
+    label: 'Получить',
     icon: QrCode,
     end: false,
   },
   {
     to: '/send',
-    label: 'Send',
+    label: 'Отправить',
     icon: PaperPlaneTilt,
     end: false,
   },
@@ -36,9 +36,9 @@ function AppLoadingScreen() {
     <div className="auth-shell loading-shell">
       <section className="auth-card loading-card">
         <div className="loading-spinner" aria-hidden="true" />
-        <p className="section-overline">TON Vault Testnet</p>
-        <h1 className="auth-title">Loading wallet</h1>
-        <p className="auth-subtitle">Preparing the Telegram shell and checking the encrypted vault stored on this device.</p>
+        <p className="section-overline">TON Testnet</p>
+        <h1 className="auth-title">Загрузка</h1>
+        <p className="auth-subtitle">Проверяем локальное хранилище.</p>
       </section>
     </div>
   )
@@ -50,7 +50,7 @@ function WalletShell() {
   const navigate = useNavigate()
   const location = useLocation()
   const showBackButton = location.pathname !== '/'
-  const modeLabel = isTelegramMiniApp() ? 'Telegram Mini App' : 'Browser preview'
+  const modeLabel = isTelegramMiniApp() ? 'Telegram' : 'Браузер'
 
   useEffect(() => bindTelegramBackButton(showBackButton, () => navigate(-1)), [navigate, showBackButton])
 
@@ -67,14 +67,14 @@ function WalletShell() {
           </div>
           <div className="wallet-header-copy">
             <p className="wallet-header-kicker">{modeLabel}</p>
-            <h1 className="wallet-header-title">TON Wallet</h1>
+            <h1 className="wallet-header-title">TON Кошелек</h1>
           </div>
         </div>
 
         <div className="wallet-header-side">
           <span className="header-chip">{shortAddress(session.addressFriendly, 5)}</span>
           <button
-            aria-label="Lock wallet"
+            aria-label="Заблокировать кошелек"
             className="icon-button"
             onClick={lock}
             type="button"
@@ -90,7 +90,7 @@ function WalletShell() {
         </div>
       </main>
 
-      <nav className="tab-bar" aria-label="Wallet navigation">
+      <nav className="tab-bar" aria-label="Навигация">
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon
 

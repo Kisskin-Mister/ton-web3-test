@@ -31,7 +31,7 @@ export interface EncryptedMnemonicEnvelope {
 
 function getCryptoOrThrow() {
   if (!globalThis.crypto?.subtle) {
-    throw new Error('Web Crypto API is not available in this environment')
+    throw new Error('Web Crypto API недоступен в этом окружении')
   }
 
   return globalThis.crypto
@@ -75,7 +75,7 @@ async function deriveAesKey(password: string, salt: Uint8Array, usages: KeyUsage
 
 export async function encryptMnemonic(words: string[], password: string, meta: VaultPublicMeta) {
   if (password.length < MIN_PASSWORD_LENGTH) {
-    throw new Error(`Password must be at least ${MIN_PASSWORD_LENGTH} characters long`)
+    throw new Error(`Пароль должен быть не короче ${MIN_PASSWORD_LENGTH} символов`)
   }
 
   const salt = randomBytes(SALT_LENGTH)
@@ -118,11 +118,11 @@ export async function decryptMnemonic(envelope: EncryptedMnemonicEnvelope, passw
     const parsed = JSON.parse(decoder.decode(decrypted)) as { mnemonic?: unknown }
 
     if (!Array.isArray(parsed.mnemonic) || parsed.mnemonic.some((word) => typeof word !== 'string')) {
-      throw new Error('Vault payload is malformed')
+      throw new Error('Повреждено содержимое хранилища')
     }
 
     return parsed.mnemonic
   } catch {
-    throw new Error('Wrong password or corrupted vault payload')
+    throw new Error('Неверный пароль или повреждено хранилище')
   }
 }

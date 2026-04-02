@@ -63,7 +63,7 @@ export const useVaultStore = create<VaultState>((set, get) => ({
     } catch (error) {
       set({
         isBusy: false,
-        error: normalizeError(error, 'Failed to create the encrypted vault'),
+        error: normalizeError(error, 'Не удалось создать локальное хранилище'),
       })
 
       throw error
@@ -75,7 +75,7 @@ export const useVaultStore = create<VaultState>((set, get) => ({
     if (!envelope) {
       set({
         status: 'empty',
-        error: 'No local vault found on this device',
+        error: 'Локальное хранилище не найдено',
       })
       return
     }
@@ -97,7 +97,7 @@ export const useVaultStore = create<VaultState>((set, get) => ({
       set({
         isBusy: false,
         status: 'locked',
-        error: normalizeError(error, 'Failed to unlock the local vault'),
+        error: normalizeError(error, 'Не удалось разблокировать хранилище'),
       })
 
       throw error
