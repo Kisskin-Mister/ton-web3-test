@@ -186,6 +186,10 @@
   gap: 22px;
 }
 
+.auth-stack {
+  gap: 20px;
+}
+
 .page-hero,
 .section-heading,
 .hero-head,
@@ -238,6 +242,11 @@
 .auth-card,
 .hero-card {
   padding: 20px;
+}
+
+.sheet-card {
+  display: grid;
+  gap: 20px;
 }
 
 .auth-card,
